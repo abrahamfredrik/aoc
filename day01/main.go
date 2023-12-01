@@ -5,29 +5,73 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/abrahamfredrik/aoc_2021_go/utils"
+	"github.com/abrahamfredrik/aoc/utils"
 )
 
 func main() {
-	input := utils.ReadInput("example2.txt")
-	sum := 0
-	for _, row := range input {
-		letters := []rune{}
-		replacedRow := replaceNumbers(row)
-		fmt.Println(row, "-", replacedRow)
-		for _, r := range replacedRow {
-			if unicode.IsDigit(r) {
-				letters = append(letters, r)
-			}
-		}
-		number := utils.ToString(letters[0]) + utils.ToString(letters[len(letters)-1])
-		sum += utils.ToInt(number)
-	}
-	fmt.Println(sum)
+	day1()
+	day2()
 }
 
-func replaceNumbers(s string) string {
-	
+func day1() {
+	input := utils.ReadInput("dayInput.txt")
+	sum := 0
+	for _, row := range input {
+		numbers := []string{}
+		for _, r := range row {
+			if unicode.IsDigit(r) {
+				numbers = append(numbers, utils.ToString(r))
+			}
+		}
+
+		sum += utils.ToInt(numbers[0] + numbers[len(numbers)-1])
+	}
+	fmt.Println("Day 1: ", sum)
+}
+
+func day2() {
+	input := utils.ReadInput("dayInput.txt")
+	sum := 0
+	for _, row := range input {
+		number := findFirstAndLast(row)
+		sum += utils.ToInt(number)
+	}
+	fmt.Println("Day 2: ", sum)
+}
+
+func findFirstAndLast(s string) int {
+	firstString := ""
+	firstDigit := ""
+firstOuter:
+	for _, r := range s {
+		firstString = firstString + utils.ToString(r)
+		firstString = replaceNumber(firstString)
+		for _, fr := range firstString {
+			if unicode.IsDigit(fr) {
+				firstDigit = utils.ToString(fr)
+				break firstOuter
+			}
+		}
+	}
+	lastString := ""
+	lastDigit := ""
+lastOuter:
+	for i := len(s) - 1; i >= 0; i-- {
+		lastString = utils.ToString(s[i]) + lastString
+		lastString = replaceNumber(lastString)
+		for _, fr := range lastString {
+			if unicode.IsDigit(fr) {
+				lastDigit = utils.ToString(fr)
+				break lastOuter
+			}
+		}
+	}
+
+	return utils.ToInt(firstDigit + lastDigit)
+}
+
+func replaceNumber(s string) string {
+	// Maybe not the prettiest but works
 	s = strings.ReplaceAll(s, "nine", "9")
 	s = strings.ReplaceAll(s, "eight", "8")
 	s = strings.ReplaceAll(s, "seven", "7")

@@ -1,23 +1,34 @@
 package main
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 
 	"github.com/abrahamfredrik/aoc/utils"
 )
 
 func main() {
-	day1()
+	solution("00000")
 	fmt.Println("---")
-	day2()
+	solution("000000")
 }
 
-func day1() {
-	input := utils.ReadInput("dayInput.txt")
-	fmt.Println(input)
+func solution(hashStartsWith string) {
+	input := "bgvyzdsv"
+	hex := ""
+	i := 0
+	for true {
+		hex = GetMD5Hash(input + utils.ToString(i))
+		if hex[0:len(hashStartsWith)] == hashStartsWith {
+			break
+		}
+		i++
+	}
+	fmt.Println(i)
 }
 
-func day2() {
-	input := utils.ReadInput("dayInput.txt")
-	fmt.Println(input)
+func GetMD5Hash(text string) string {
+	hash := md5.Sum([]byte(text))
+	return hex.EncodeToString(hash[:])
 }

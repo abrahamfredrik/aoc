@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	for i := 5; i <= 25; i++ {
-		newpath := filepath.Join("../2023", "day")
+	for i := 1; i <= 5; i++ {
+		newpath := filepath.Join("../2015", "day")
 		if i < 10 {
 			newpath = newpath + "0"
 		}

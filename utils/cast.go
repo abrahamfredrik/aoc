@@ -14,6 +14,8 @@ func ToString(input interface{}) string {
 		return string(input.(rune))
 	case byte:
 		return string(rune(input.(byte)))
+	case string:
+		return input.(string)
 	default:
 		panic(fmt.Sprintf("Unhandled type for string casting %T", input))
 	}

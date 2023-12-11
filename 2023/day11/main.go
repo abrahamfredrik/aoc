@@ -5,27 +5,30 @@ import (
 	"math"
 
 	"github.com/abrahamfredrik/aoc/utils"
+	"golang.org/x/exp/slices"
 )
 
 func main() {
 	day1()
 	fmt.Println("---")
-	// day2()
+	day2()
 }
 
 func day1() {
-	matrix := parseInput()
-	matrix = extendMatrix(matrix)
-	//utils.PrintMatrix(matrix)
-	stars := []utils.Coord{}
-	for indexRow, row := range matrix {
-		for indexCol, col := range row {
-			if col != '.' {
-				stars = append(stars, utils.Coord{indexCol, indexRow})
-			}
-		}
-	}
+	stars := parseInput()
+	stars = extendStars(stars, 2)
+	dist := findDistence(stars)
+	fmt.Println(dist)
+}
 
+func day2() {
+	stars := parseInput()
+	stars = extendStars(stars, 1000000)
+	dist := findDistence(stars)
+	fmt.Println(dist)
+}
+
+func findDistence(stars []utils.Coord) int {
 	dist := 0
 	for i := 0; i < len(stars)-1; i++ {
 		for j := i + 1; j < len(stars); j++ {
@@ -33,64 +36,64 @@ func day1() {
 			dist += int(math.Abs(float64(stars[i].Y - stars[j].Y)))
 		}
 	}
-
-	fmt.Println(dist)
-
-
+	return dist
 }
 
-func day2() {
+func extendStars(inputStars []utils.Coord, extension int) []utils.Coord {
+	slices.SortFunc(inputStars, sortX)
+	tempStars := []utils.Coord{}
+	maxX := inputStars[len(inputStars)-1].X
+	ext := 0
+	for i := 0; i <= maxX; i++ {
+		foundStar := false
+		for _, s := range inputStars {
+			if i == s.X {
+				tempStars = append(tempStars, utils.Coord{X: s.X + ext, Y: s.Y})
+				foundStar = true
+			}
+		}
+		if !foundStar {
+			ext += extension - 1
+		}
+
+	}
+	slices.SortFunc(tempStars, sortY)
+	outputStars := []utils.Coord{}
+	maxY := tempStars[len(tempStars)-1].Y
+	ext = 0
+	for i := 0; i <= maxY; i++ {
+		foundStar := false
+		for _, s := range tempStars {
+			if i == s.Y {
+				outputStars = append(outputStars, utils.Coord{X: s.X, Y: s.Y + ext})
+				foundStar = true
+			}
+		}
+		if !foundStar {
+			ext += extension - 1
+		}
+	}
+
+	return outputStars
+}
+
+func sortX(a utils.Coord, b utils.Coord) int {
+	return a.X - b.X
+}
+
+func sortY(a utils.Coord, b utils.Coord) int {
+	return a.Y - b.Y
+}
+
+func parseInput() []utils.Coord {
 	input := utils.ReadInput("dayInput.txt")
-	fmt.Println(input)
-}
-
-func extendMatrix(inputMatrix [][]rune) [][]rune {
-	hasStarRow := make([]bool, len(inputMatrix))
-	hasStarCol := make([]bool, len(inputMatrix[0]))
-	for indexRow, row := range inputMatrix {
+	starList := []utils.Coord{}
+	for indexRow, row := range input {
 		for indexCol, col := range row {
 			if col != '.' {
-				hasStarCol[indexCol] = true
-				hasStarRow[indexRow] = true
+				starList = append(starList, utils.Coord{X: indexCol, Y: indexRow})
 			}
 		}
 	}
-	counterRow := 0
-	for _, v := range hasStarRow {
-		if !v {
-			counterRow++
-		}
-	}
-	outputMatrix := make([][]rune, 0)
-	for rowIndex, row := range inputMatrix {
-		tempRow := []rune{}
-		for colIndex, col := range row {
-			tempRow = append(tempRow, col)
-			if !hasStarCol[colIndex] {
-				tempRow = append(tempRow, '.')
-			}
-		}
-		outputMatrix = append(outputMatrix, tempRow)
-		if !hasStarRow[rowIndex] {
-			tempRow := []rune{}
-			for i := 0; i <= len(inputMatrix[rowIndex])+counterRow; i++ {
-				tempRow = append(tempRow, '.')
-			}
-			outputMatrix = append(outputMatrix, tempRow)
-		}
-	}
-
-	return outputMatrix
-}
-
-func parseInput() [][]rune {
-	input := utils.ReadInput("dayInput.txt")
-	matrix := make([][]rune, len(input))
-	for indexRow, row := range input {
-		matrix[indexRow] = make([]rune, len(row))
-		for indexCol, col := range row {
-			matrix[indexRow][indexCol] = col
-		}
-	}
-	return matrix
+	return starList
 }

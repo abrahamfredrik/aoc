@@ -9,7 +9,7 @@ import (
 func main() {
 	day1()
 	fmt.Println("---")
-	day2()
+	// day2()
 }
 
 func day1() {
@@ -20,4 +20,18 @@ func day1() {
 func day2() {
 	input := utils.ReadInput("dayInput.txt")
 	fmt.Println(input)
+}
+
+
+
+type workFlow struct {
+	key string
+	exp string
+}
+
+type part struct {
+	x int
+	m int
+	a int
+	s int
 }

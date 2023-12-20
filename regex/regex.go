@@ -11,3 +11,8 @@ func GetLowerCaseRegexp() *regexp.Regexp {
 	regex, _ := regexp.Compile("[a-z]+")
 	return regex
 }
+
+func GetTextRegexp() *regexp.Regexp {
+	regex, _ := regexp.Compile("[a-zA-Z]+")
+	return regex
+}

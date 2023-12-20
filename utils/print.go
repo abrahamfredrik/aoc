@@ -15,7 +15,7 @@ func PrintMatrix[T string | int | rune](m [][]T) {
 	}
 }
 
-func PrintMap(m map[Coord]string) {
+func PrintMap[T rune | string](m map[Coord]T) {
 	minX := math.MaxInt
 	maxX := math.MinInt
 	minY := math.MaxInt
@@ -40,9 +40,12 @@ func PrintMap(m map[Coord]string) {
 	arrayMatrix := make([][]string, maxY+1)
 	for i := range arrayMatrix {
 		arrayMatrix[i] = make([]string, maxX+1)
+		for j := 0; j <= maxX; j++ {
+			arrayMatrix[i][j] = "."
+		}
 	}
 	for k, v := range m {
-		arrayMatrix[k.Y][k.X] = v
+		arrayMatrix[k.Y][k.X] = ToString(v)
 	}
 	PrintMatrix(arrayMatrix)
 }

@@ -42,3 +42,19 @@ func (c Coord) getSurrounding(input [][2]int) []Coord {
 	}
 	return coords
 }
+
+func (c Coord) GetAbove() Coord {
+	return Coord{c.X, c.Y - 1}
+}
+
+func (c Coord) GetBelow() Coord {
+	return Coord{c.X, c.Y + 1}
+}
+
+func (c Coord) GetRight() Coord {
+	return Coord{c.X+1, c.Y}
+}
+
+func (c Coord) GetLeft() Coord {
+	return Coord{c.X-1, c.Y}
+}

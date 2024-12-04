@@ -1,22 +1,20 @@
 package utils
 
-var SurroundingCoordsIncDiagonal = [][2]int{
-	{1, 1},
-	{1, 0},
-	{1, -1},
-	{0, 1},
-	{0, -1},
-	{-1, 1},
-	{-1, 0},
-	{-1, -1},
-}
-
 var SurroundingCoordsExcDiagonal = [][2]int{
 	{1, 0},
 	{0, 1},
 	{0, -1},
 	{-1, 0},
 }
+
+var Diagonals = [][2]int{
+	{1, 1},
+	{1, -1},
+	{-1, 1},
+	{-1, -1},
+}
+
+var SurroundingCoordsIncDiagonal = append(SurroundingCoordsExcDiagonal, Diagonals...)
 
 type Coord struct {
 	X int

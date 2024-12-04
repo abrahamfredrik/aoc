@@ -6,18 +6,21 @@ import (
 	"github.com/abrahamfredrik/aoc/utils"
 )
 
+var EXAMPLE = "exampleInput.txt"
+var DAY_INPUT = "dayInput.txt"
+
 func main() {
-	day1()
+	task1()
 	fmt.Println("---")
-	day2()
+	task2()
 }
 
-func day1() {
-	input := utils.ReadInput("dayInput.txt")
+func task1() {
+	input := utils.ReadInput(EXAMPLE)
 	fmt.Println(input)
 }
 
-func day2() {
-	input := utils.ReadInput("dayInput.txt")
+func task2() {
+	input := utils.ReadInput(EXAMPLE)
 	fmt.Println(input)
 }

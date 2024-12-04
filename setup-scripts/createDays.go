@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
 
 func main() {
-	for i := 1; i <= 25; i++ {
+	for i := 4; i <= 25; i++ {
 		newpath := filepath.Join("../2024", "day")
 		if i < 10 {
 			newpath = newpath + "0"
@@ -17,13 +16,13 @@ func main() {
 		os.MkdirAll(newpath, os.ModePerm)
 
 		copyFile("template/main.go", newpath+"/main.go")
-		copyFile("template/example.txt", newpath+"/example.txt")
+		copyFile("template/exampleInput.txt", newpath+"/exampleInput.txt")
 		copyFile("template/dayInput.txt", newpath+"/dayInput.txt")
 	}
 
 }
 
 func copyFile(src string, dst string) {
-	data, _ := ioutil.ReadFile(src)
-	ioutil.WriteFile(dst, data, 0644)
+	data, _ := os.ReadFile(src)
+	os.WriteFile(dst, data, 0644)
 }

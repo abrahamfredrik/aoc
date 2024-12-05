@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	for i := 4; i <= 25; i++ {
+	for i := 6; i <= 25; i++ {
 		newpath := filepath.Join("../2024", "day")
 		if i < 10 {
 			newpath = newpath + "0"
